@@ -1,0 +1,10 @@
+{
+  "name": "tempmail",
+  "description": "Node.js API wrapper for temp-mail.ru",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:xomyaq/tempmail.git"
+  },
+  "author": "Ilnur Khalilov <ilnur.khalilov@gmail.com> (ilnurkhalilov.ru)"
+}
