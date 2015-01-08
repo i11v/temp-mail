@@ -1,10 +1,20 @@
 {
-  "name": "tempmail",
+  "name": "tempmail-wrapper",
   "description": "Node.js API wrapper for temp-mail.ru",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:xomyaq/tempmail.git"
   },
-  "author": "Ilnur Khalilov <ilnur.khalilov@gmail.com> (ilnurkhalilov.ru)"
+  "author": "Ilnur Khalilov <ilnur.khalilov@gmail.com> (ilnurkhalilov.ru)",
+  "dependencies": {
+    "promise": "^6.0.1"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.1.0"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha test"
+  }
 }

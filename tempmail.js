@@ -1,80 +1,64 @@
 'use strict';
 
 var crypto = require('crypto')
-  , http = require('http');
+  , http = require('http')
+  , Promise = require('promise');
 
-var apiUrl = 'http://api.temp-mail.ru';
+var API_URL = 'http://api.temp-mail.ru';
 
-function TempmailWrapper(login, domain) {
-  if (this instanceof TempmailWrapper) {
-    this.login = login;
-    this.domain = domain;
-    this.apiUrl = apiUrl;
-
-    this.init();
-  } else {
-    return new TempmailWrapper(login, domain);
-  }
+function _getEmailHash(email) {
+  return crypto.createHash('md5').update(email).digest('hex');
 }
 
-TempmailWrapper.prototype.init = function () {
-  var _this = this;
+function _getRandomEmail(domains, len) {
+  return Math.random().toString(36).substring(len ? len : 7) + domains[Math.floor(Math.random() * domains.length)];
+}
 
-  if (!_this.login) {
-    _this.login = _this.generateLogin();
-  }
+function _getAvailableDomains() {
+  return new Promise(function (resolve, reject) {
+    http
+      .get(API_URL + '/request/domains/format/json/')
+      .on('response', function (res) {
+        var data = '';
 
-  _this.getAvailableDomains()
-    .on('response', function (res) {
-      res.on('data', function (chunk) {
-        _this.availableDomains = chunk.toString();
-        _this.email = _this.getEmailAddress(_this.availableDomains);
-        _this.emailHash = _this.getEmailHash(_this.login);
-      });
-    });
-};
+        res.on('data', function (chunk) {
+          data += chunk;
+        }).on('end', function () {
+          resolve(data);
+        });
+      })
+      .on('error', reject);
+  }).then(JSON.parse).catch(console.error);
+}
 
-TempmailWrapper.prototype.getAvailableDomains = function () {
-  var _this = this
-    , req = http.get(_this.apiUrl + '/request/domains/format/json/');
-
-  req.on('error', function (err) {
-    console.error(err);
+function _generateEmail(len) {
+  return _getAvailableDomains().then(function (availableDomains) {
+    return _getRandomEmail(availableDomains, len);
   });
+}
 
-  return req;
+function _getIndbox(email) {
+  return new Promise(function (resolve, reject) {
+    if (!email) {
+      return reject('Please specify email');
+    }
+
+    http
+      .get(API_URL + '/request/mail/id/' + _getEmailHash(email) + '/format/json/')
+      .on('response', function (res) {
+        var data = '';
+
+        res.on('data', function (chunk) {
+          data += chunk;
+        }).on('end', function () {
+          resolve(data);
+        });
+      })
+      .on('error', reject);
+  }).then(JSON.parse).catch(console.error);
+}
+
+module.exports = {
+  generateEmail: _generateEmail,
+  getInbox: _getIndbox
 };
-
-TempmailWrapper.prototype.generateLogin = function (len) {
-  return this.login = Math.random().toString(36).substring(len ? len : 7);
-};
-
-TempmailWrapper.prototype.getEmailHash = function (email) {
-  return crypto.createHash('md5').update(email ? email : this.email).digest('hex');
-};
-
-TempmailWrapper.prototype.getEmailAddress = function () {
-  var _this = this
-    , domains = _this.availableDomains;
-
-  return _this.login + domains[Math.floor(Math.random() * domains.length)];
-};
-
-TempmailWrapper.prototype.getMail = function (emailHash) {
-  var _this = this
-    , req = http.get(_this.apiUrl + '/request/mail/id/' + (emailHash ? emailHash : _this.emailHash) + '/format/json/');
-
-  req
-    .on('response', function (res) {
-      res.on('data', function (chunk) {
-        console.log(chunk.toString());
-      });
-    })
-    .on('error', function (err) {
-      console.error(err);
-    });
-
-  //return req;
-};
-
-module.exports = TempmailWrapper;

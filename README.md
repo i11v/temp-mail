@@ -1,3 +1,3 @@
-# tempmail
+# tempmail-wrapper
 
-Node.js API wrapper for temp-mail.ru
+Simple node.js API wrapper for temp-mail.ru
