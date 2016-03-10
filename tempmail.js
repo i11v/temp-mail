@@ -4,7 +4,7 @@ var crypto = require('crypto')
   , http = require('http')
   , Promise = require('promise');
 
-var API_URL = 'http://api.temp-mail.ru';
+var API_URL = 'https://api.temp-mail.ru';
 
 function _getEmailHash(email) {
   return crypto.createHash('md5').update(email).digest('hex');
