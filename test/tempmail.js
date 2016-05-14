@@ -1,20 +1,18 @@
-/* globals describe, it */
-
-const tempmail = require('../tempmail');
-const assert = require('chai').assert;
+const test = require('tape');
+const { generateEmail, getInbox } = require('../tempmail');
 
 
-describe('Temp-mail.ru wrapper', () => {
-  it('should create a new email', () => {
-    tempmail.generateEmail().then((email) => {
-      assert.isString(email, 'email is a string');
-      assert.notEqual(email.indexOf('@'), -1, 'email contains at-mark');
+test('Create a new email', (t) => {
+  generateEmail()
+    .then((email) => {
+      t.equal(typeof email, 'string', 'email is a string');
+      t.notEqual(email.indexOf('@'), -1, 'email contains at-mark');
+
+      return email;
+    })
+    .then(getInbox)
+    .catch((err) => {
+      t.equal(err.message, 'Request failed: 404', 'inbox is empty');
+      t.end();
     });
-  });
-
-  it('should get inbox', () => {
-    tempmail.generateEmail()
-      .then(tempmail.getInbox)
-      .then(inbox => assert.isDefined(inbox));
-  });
 });
