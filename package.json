@@ -1,20 +1,24 @@
 {
   "name": "tempmail-wrapper",
   "description": "Node.js API wrapper for temp-mail.ru",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:xomyaq/tempmail.git"
   },
   "author": "Ilnur Khalilov <ilnur.khalilov@gmail.com> (ilnurkhalilov.ru)",
-  "dependencies": {
-    "promise": "^6.0.1"
-  },
   "devDependencies": {
     "chai": "^1.10.0",
+    "eslint": "^2.10.0",
+    "eslint-config-airbnb-base": "^3.0.1",
+    "eslint-plugin-import": "^1.8.0",
     "mocha": "^2.1.0"
   },
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test"
+    "test": "./node_modules/mocha/bin/mocha test",
+    "lint": "node ./node_modules/eslint/bin/eslint.js tempmail.js test/*.js"
   }
 }

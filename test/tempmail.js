@@ -1,19 +1,20 @@
-'use strict';
+/* globals describe, it */
 
-var tempmail = require('../tempmail')
-  , assert = require('chai').assert;
+const tempmail = require('../tempmail');
+const assert = require('chai').assert;
 
-describe('Temp-mail.ru wrapper', function () {
-  it('should create a new email', function () {
-    return tempmail.generateEmail().then(function (email) {
+
+describe('Temp-mail.ru wrapper', () => {
+  it('should create a new email', () => {
+    tempmail.generateEmail().then((email) => {
       assert.isString(email, 'email is a string');
       assert.notEqual(email.indexOf('@'), -1, 'email contains at-mark');
     });
   });
 
-  it('should get inbox', function () {
-    return tempmail.generateEmail().then(tempmail.getInbox).then(function (inbox) {
-      return assert.isDefined(inbox);
-    })
+  it('should get inbox', () => {
+    tempmail.generateEmail()
+      .then(tempmail.getInbox)
+      .then(inbox => assert.isDefined(inbox));
   });
 });
