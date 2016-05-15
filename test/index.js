@@ -1,5 +1,5 @@
 const test = require('tape');
-const { generateEmail, getInbox } = require('../tempmail');
+const { generateEmail, getInbox } = require('../index');
 
 
 test('Create a new email', (t) => {

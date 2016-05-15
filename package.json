@@ -1,12 +1,12 @@
 {
-  "name": "tempmail-wrapper",
-  "description": "Node.js API wrapper for temp-mail.ru",
+  "name": "temp-mail",
   "version": "2.0.0",
+  "description": "Node.js API wrapper for temp-mail.ru",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:xomyaq/tempmail.git"
   },
-  "author": "Ilnur Khalilov <ilnur.khalilov@gmail.com> (ilnurkhalilov.ru)",
   "devDependencies": {
     "eslint": "^2.10.0",
     "eslint-config-airbnb-base": "^3.0.1",
@@ -19,6 +19,12 @@
   },
   "scripts": {
     "test": "node test/tempmail.js | tap-spec",
-    "lint": "node ./node_modules/eslint/bin/eslint.js tempmail.js test/*.js"
-  }
+    "lint": "node ./node_modules/eslint/bin/eslint.js index.js tests/*.js"
+  },
+  "author": {
+    "name": "Ilnur Khalilov",
+    "email": "ilnur.khalilov@gmail.com",
+    "url": "ilnurkhalilov.ru"
+  },
+  "license": "MIT"
 }
