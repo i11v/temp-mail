@@ -18,7 +18,7 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "test": "node test/tempmail.js | tap-spec",
+    "test": "node test/*.js | tap-spec",
     "lint": "node ./node_modules/eslint/bin/eslint.js index.js tests/*.js"
   },
   "author": {
