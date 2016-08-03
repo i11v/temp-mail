@@ -1,4 +1,4 @@
-const test = require('tape');
+const test = require('tape'); // eslint-disable-line import/no-extraneous-dependencies
 const { generateEmail, getInbox } = require('../index');
 
 
