@@ -84,4 +84,14 @@ function getInbox(email) {
   return get(`${API_URL}/request/mail/id/${getEmailHash(email)}/format/json/`).then(JSON.parse);
 }
 
-module.exports = { generateEmail, getInbox };
+function deleteMail(mailId) {
+  return new Promise((resolve, reject) => {
+    if (!mailId) {
+      return reject('Please specify mail identifier');
+    }
+
+    return get(`${API_URL}/request/delete/id/${mailId}/format/json/`).then(JSON.parse);
+  });
+}
+
+module.exports = { generateEmail, getInbox, deleteMail };
