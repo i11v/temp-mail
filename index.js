@@ -47,16 +47,13 @@ function getEmailHash(email) {
  * @param {string} prefix
  * @returns {string}
  */
-function getRandomEmail(domains, len, prefix) {
-  if(!len) { len = 7; }
-  if(!prefix) { prefix = ''; }
-  
+function getRandomEmail(domains, len = 7, prefix = '') {
   const alfabet = '1234567890abcdefghijklmnopqrstuvwxyz';
-  
-  let name = !prefix ? '' : prefix + '-';
-  
-  for(let i = 0; i < len; i++) {
-    let randomChar = Math.round(Math.random() * (alfabet.length - 1));
+
+  let name = !prefix ? '' : `${prefix}-`;
+
+  for (let i = 0; i < len; i++) {
+    const randomChar = Math.round(Math.random() * (alfabet.length - 1));
     name += alfabet.charAt(randomChar);
   }
 
