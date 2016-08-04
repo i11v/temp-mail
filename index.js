@@ -44,10 +44,19 @@ function getEmailHash(email) {
  * Generates random email in given domains
  * @param {Array} domains
  * @param {number} [len=7]
+ * @param {string} prefix
  * @returns {string}
  */
-function getRandomEmail(domains, len = 7) {
-  const name = Math.random().toString(36).substring(len);
+function getRandomEmail(domains, len = 7, prefix = '') {
+  const alfabet = '1234567890abcdefghijklmnopqrstuvwxyz';
+
+  let name = !prefix ? '' : `${prefix}-`;
+
+  for (let i = 0; i < len; i++) {
+    const randomChar = Math.round(Math.random() * (alfabet.length - 1));
+    name += alfabet.charAt(randomChar);
+  }
+
   const domain = domains[Math.floor(Math.random() * domains.length)];
 
   return name + domain;
@@ -64,11 +73,12 @@ function getAvailableDomains() {
 /**
  * Generates email on temp-mail.ru
  * @param {number} [len]
+ * @param {string} prefix
  * @returns {Promise.<String, Error>}
  */
-function generateEmail(len) {
+function generateEmail(len, prefix) {
   return getAvailableDomains()
-    .then(availableDomains => getRandomEmail(availableDomains, len));
+    .then(availableDomains => getRandomEmail(availableDomains, len, prefix));
 }
 
 /**

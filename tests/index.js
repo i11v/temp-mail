@@ -16,3 +16,33 @@ test('Create a new email', (t) => {
       t.end();
     });
 });
+
+test('Generate email with prefix', (t) => {
+  // avoid http error 429
+  setTimeout(() => {
+    generateEmail(5, 'prefix')
+      .then((email) => {
+        const name = email.slice(0, email.indexOf('@'));
+        const prefix = name.slice(0, 6);
+
+        t.equal(name.length, 12, 'email name is correct');
+        t.equal(prefix, 'prefix', 'prefix is correct');
+
+        t.end();
+      });
+  }, 700);
+});
+
+test('Generate email without prefix', (t) => {
+  // avoid http error 429
+  setTimeout(() => {
+    generateEmail(5)
+      .then((email) => {
+        const name = email.slice(0, email.indexOf('@'));
+
+        t.equal(name.length, 5, 'email name is correct');
+
+        t.end();
+      });
+  }, 700);
+});
